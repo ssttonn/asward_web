@@ -1,4 +1,8 @@
-import { useCallback, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
+import Button from "./Button";
+import { TiLocationArrow } from "react-icons/ti";
+import { useGSAP } from "@gsap/react";
+import gsap from "gsap";
 
 const Hero = () => {
   const [currentIndex, setCurrentIndex] = useState(1);
@@ -6,7 +10,7 @@ const Hero = () => {
   const [isVideoLoading, setIsVideoLoading] = useState(true);
   const [loadedVideos, setLoadedVideos] = useState(0);
   const totalVideos = 4;
-  const nextVideoRef = useRef(null);
+  const nextVideoRef = useRef<HTMLVideoElement>(null);
 
   const onMiniVideoClick = useCallback(() => {
     setHasUserClicked(true);
@@ -22,8 +26,79 @@ const Hero = () => {
     return `/videos/hero-${index}.mp4`;
   }, []);
 
+  useEffect(() => {
+    if (loadedVideos === totalVideos - 1) {
+      setIsVideoLoading(false);
+    }
+  }, [loadedVideos]);
+
+  useGSAP(
+    () => {
+      if (hasUserClicked) {
+        gsap.set("#next-video", {
+          visibility: "visible",
+        });
+
+        gsap.to("#next-video", {
+          transformOrigin: "center center",
+          scale: 1,
+          width: "100%",
+          height: "100%",
+          duration: 1,
+          ease: "power1.inOut",
+
+          onStart: () => {
+            nextVideoRef.current?.play();
+          },
+        });
+
+        gsap.from("#current-video", {
+          transformOrigin: "center center",
+          scale: 0,
+          duration: 1.5,
+          ease: "power1.inOut",
+          onStart: () => {
+            nextVideoRef.current?.play();
+          },
+        });
+      }
+    },
+    {
+      dependencies: [currentIndex],
+      revertOnUpdate: true,
+    }
+  );
+
+  useGSAP(() => {
+    gsap.set("#video-frame", {
+      clipPath: "polygon(14% 0%, 72% 0%, 90% 90%, 0% 100%)",
+      borderRadius: "0 0 40% 10%",
+    });
+
+    gsap.from("#video-frame", {
+      clipPath: "polygon(0% 0%, 100% 0%, 100% 100%, 0% 100%)",
+      borderRadius: "0 0 0 0",
+      ease: "power1.inOut",
+      scrollTrigger: {
+        trigger: "#video-frame",
+        start: "center center",
+        end: "bottom center",
+        scrub: true,
+      },
+    });
+  });
+
   return (
     <div className="relative h-dvh w-screen overflow-x-hidden">
+      {isVideoLoading && (
+        <div className="flex-center absolute z-[100] h-dvh w-screen overflow-hidden bg-violet-50">
+          <div className="three-body">
+            <div className="three-body__dot"></div>
+            <div className="three-body__dot"></div>
+            <div className="three-body__dot"></div>
+          </div>
+        </div>
+      )}
       <div
         id="video-frame"
         className="relative z-10 h-dvh w-screen overflow-hidden rounded-lg bg-blue-75"
@@ -58,7 +133,7 @@ const Hero = () => {
           />
           <video
             src={getVideoPath(currentIndex > totalVideos ? 1 : currentIndex)}
-            autoPlay
+            autoPlay={!hasUserClicked && currentIndex === 1}
             loop
             muted
             className="absolute left-0 top-0 size-full object-cover object-center"
@@ -78,9 +153,19 @@ const Hero = () => {
               <br />
               Unleash the Play Economy
             </p>
+
+            <Button
+              id="watch-trailer"
+              title="Watch trailer"
+              leftIcon={<TiLocationArrow />}
+              containerClassName="!bg-yellow-300 flex-center gap-1"
+            />
           </div>
         </div>
       </div>
+      <h1 className="special-font hero-heading absolute bottom-5 right-5 text-black">
+        G<b>a</b>ming
+      </h1>
     </div>
   );
 };
