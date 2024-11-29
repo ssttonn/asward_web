@@ -1,6 +1,6 @@
 import { useGSAP } from "@gsap/react";
 import gsap from "gsap";
-import React from "react";
+import { memo } from "react";
 import AnimatedTitle from "./AnimatedTitle";
 
 const About = () => {
@@ -21,7 +21,7 @@ const About = () => {
       height: "100vh",
       borderRadius: 0,
     });
-  });
+  }, []);
 
   return (
     <div id="about" className="min-h-screen w-screen">
@@ -53,4 +53,4 @@ const About = () => {
   );
 };
 
-export default About;
+export default memo(About);

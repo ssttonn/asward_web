@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import React, { useEffect, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 
 interface AnimatedTitleProps {
   title: string;
@@ -54,4 +54,4 @@ const AnimatedTitle = ({ title, containerClassName }: AnimatedTitleProps) => {
   );
 };
 
-export default AnimatedTitle;
+export default memo(AnimatedTitle);

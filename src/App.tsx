@@ -3,6 +3,7 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/all";
 import About from "./components/About";
 import NavBar from "./components/NavBar";
+import Features from "./components/Features";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -12,7 +13,7 @@ const App = () => {
       <NavBar />
       <Hero />
       <About />
-      <section className="z-0 min-h-screen bg-blue-500"></section>
+      <Features />
     </main>
   );
 };
