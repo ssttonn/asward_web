@@ -1,5 +1,3 @@
-import React from "react";
-
 interface ImageClipBoxProps {
   src: string;
   clipClassName: string;

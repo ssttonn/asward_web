@@ -1,8 +1,8 @@
-import React, { memo, MouseEventHandler, useCallback, useRef } from "react";
-import AnimatedTitle from "./AnimatedTitle";
 import gsap from "gsap";
-import RoundedCorners from "./RoundedCorner";
+import { memo, MouseEventHandler, useCallback, useRef } from "react";
+import AnimatedTitle from "./AnimatedTitle";
 import Button from "./Button";
+import RoundedCorners from "./RoundedCorner";
 
 const Story = () => {
   const frameRef = useRef<HTMLImageElement>(null);

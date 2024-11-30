@@ -1,6 +1,5 @@
-import React from "react";
-import ImageClipBox from "./ImageClipBox";
 import Button from "./Button";
+import ImageClipBox from "./ImageClipBox";
 
 const Contact = () => {
   return (

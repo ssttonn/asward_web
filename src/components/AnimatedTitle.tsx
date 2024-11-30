@@ -1,5 +1,5 @@
 import gsap from "gsap";
-import React, { memo, useEffect, useRef } from "react";
+import { memo, useEffect, useRef } from "react";
 
 interface AnimatedTitleProps {
   title: string;
